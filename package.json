@@ -1,0 +1,27 @@
+{
+  "name": "employeetracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZahraMammadli/EmployeeTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZahraMammadli/EmployeeTracker/issues"
+  },
+  "homepage": "https://github.com/ZahraMammadli/EmployeeTracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.3.3",
+    "mysql2-promise": "^0.1.4",
+    "nodemon": "^2.0.15"
+  }
+}

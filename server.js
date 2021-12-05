@@ -1,8 +1,14 @@
 // Importing necessary packages
-const mysql = require("mysql2");
 const inquirer = require("inquirer");
-// const { allEmployees } = require("./utils/addRetrieveEmployee");
+const {
+  allEmpl,
+  allRls,
+  allDpt,
+  addDep,
+  addRole,
+} = require("./utils/sqlScripts");
 const cTable = require("console.table");
+const mysql = require("mysql2");
 
 // Create connection to the db
 const connection = mysql.createConnection({
@@ -23,6 +29,7 @@ const main = () => {
         "Add Employee",
         "Update Employee Role",
         "View All Roles",
+        "Add a Role",
         "View All Depratments",
         "Add Depratment",
       ],
@@ -31,32 +38,67 @@ const main = () => {
     .then((answers) => {
       switch (answers.actions) {
         case "View All Employees":
-          allEmployees();
+          runSql(allEmpl);
           break;
         case "View All Depratments":
-          allDepartments();
+          runSql(allRls);
+          break;
+        case "View All Roles":
+          runSql(allDpt);
+          break;
+        case "Add Depratment":
+          inquirer
+            .prompt({
+              name: "name",
+              message: "What is the name of your department?",
+            })
+            .then((responce) => {
+              modifySql(addDep, responce);
+            });
+          break;
+        case "Add a Role":
+          inquirer
+            .prompt([
+              {
+                type: "input",
+                name: "title",
+                message: "Please enter title of new role",
+              },
+              {
+                type: "input",
+                name: "salary",
+                message: "Please enter salary for new role",
+              },
+              {
+                type: "input",
+                name: "department_id",
+                message: "Please enter department id for new role",
+              },
+            ])
+            .then((responce) => {
+              //   console.log(responce);
+              modifySql(addRole, responce);
+            });
           break;
       }
     });
 };
 
-//function to display all employees//
-function allEmployees() {
-  console.log("List of all Employees");
-  connection.query(`SELECT * FROM employee`, (err, data) => {
+//  Function to run sql scripts returning data
+runSql = (script) => {
+  connection.query(script, (err, data) => {
     if (err) throw err;
     console.table(data);
     main();
   });
-}
-//function to view all departments//
-function allDepartments() {
-  console.log("All departments:");
-  connection.query(`SELECT * FROM department`, (err, data) => {
+};
+//  Function to run sql scripts to add/modify data
+modifySql = (script, responce) => {
+  connection.query(script, responce, (err, data) => {
     if (err) throw err;
     console.table(data);
     main();
   });
-}
+};
 
 main();

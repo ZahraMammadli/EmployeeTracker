@@ -49,11 +49,13 @@ const main = () => {
         case "Add Depratment":
           inquirer
             .prompt({
+              type: "input",
               name: "name",
               message: "What is the name of your department?",
             })
             .then((responce) => {
-              modifySql(addDep, responce);
+              //   console.log(responce.name);
+              modifySql(addDep, responce.name);
             });
           break;
         case "Add a Role":
@@ -70,14 +72,18 @@ const main = () => {
                 message: "Please enter salary for new role",
               },
               {
-                type: "input",
+                type: "list",
                 name: "department_id",
-                message: "Please enter department id for new role",
+                message: "Please choose department for new role",
+                choices: showDep(allDpt),
               },
             ])
             .then((responce) => {
               //   console.log(responce);
-              modifySql(addRole, responce);
+              modifySql(
+                addRole,
+                `${responce.title},${responce.salary},${responce.department_id}`
+              );
             });
           break;
       }
@@ -101,4 +107,19 @@ modifySql = (script, responce) => {
   });
 };
 
+// Function to map column names by ids
+
+showDep = (script) => {
+  connection.query(script, (err, response) => {
+    if (err) throw err;
+    const departments = response.map((element) => {
+      console.log({ name: `${element.name}` });
+
+      return { name: `${element.name}` };
+    });
+  });
+};
+
 main();
+
+// showDep(allDpt);

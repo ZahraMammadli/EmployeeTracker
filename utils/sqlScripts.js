@@ -19,4 +19,8 @@ VALUES (?)`;
 const addRole = `INSERT INTO  employee_role (title, salary, department_id)
 VALUES (?)`;
 
+const getAddRoleQuery = (input, callBack) => {
+  connection.query(`INSERT INTO  employee_role (title, salary, department_id)
+VALUES (?)`, input.salary, input.title, callBack);};
+
 module.exports = { allEmpl, allRls, allDpt, addDep, addRole };

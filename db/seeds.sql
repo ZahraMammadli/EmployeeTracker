@@ -19,15 +19,20 @@ VALUES ("Commercial Manager", 6500, 1),
        ("UX/UI desginer", 3780, 2);
   
 
-INSERT INTO employee (firts_name, last_name, role_id, manager_id)
-VALUES ("Zahra", "Mammadli",2 , null ),
-       ("Milhause", "Van Houten", 1, null),
-       ("Homer","Simpson", 3, 2),
-       ("Marge","Simpson",4, 1),
-       ("Maggie" ,"Simpson", 5, 1),
-       ("Bart","Simpson", 6, 2),
-       ("Lisa", "Simpson",7, null),
-       ("Montgomerry", "Berns", 8, null),       
-       ("Principal", "Skinner", 9, 1),              
-       ("Ned", "Flanders", 3, 1);
+INSERT INTO employee (first_name, last_name, role_id, manager_id, manager_confirm)
+VALUES ("Zahra", "Mammadli",2 , null, true ),
+       ("Milhause", "Van Houten", 1, null, true),
+       ("Homer","Simpson", 3, 2, false),
+       ("Marge","Simpson",4, 1, false),
+       ("Maggie" ,"Simpson", 5, 1, false),
+       ("Bart","Simpson", 6, 2, false),
+       ("Lisa", "Simpson",7, null, false),
+       ("Montgomerry", "Berns", 8, null, false),
+       ("Principal", "Skinner", 9, 1, false),
+       ("Ned", "Flanders", 3, 1, false);
  
+ INSERT INTO manager (first_name, last_name)
+SELECT first_name,
+    last_name
+FROM employee
+WHERE manager_confirm = 1;

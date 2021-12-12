@@ -9,9 +9,11 @@ const {
 } = require("./utils/sqlScripts");
 const cTable = require("console.table");
 const mysql = require("mysql2");
+const util = require("util");
+const { copyFileSync } = require("fs");
 
 // Create connection to the db
-const connection = mysql.createConnection({
+const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   database: "employees",
@@ -36,90 +38,66 @@ const main = () => {
       name: "actions",
     })
     .then((answers) => {
-      switch (answers.actions) {
-        case "View All Employees":
-          runSql(allEmpl);
-          break;
-        case "View All Depratments":
-          runSql(allRls);
-          break;
-        case "View All Roles":
-          runSql(allDpt);
-          break;
-        case "Add Depratment":
-          inquirer
-            .prompt({
-              type: "input",
-              name: "name",
-              message: "What is the name of your department?",
-            })
-            .then((responce) => {
-              //   console.log(responce.name);
-              modifySql(addDep, responce.name);
-            });
-          break;
-        case "Add a Role":
-          inquirer
-            .prompt([
-              {
-                type: "input",
-                name: "title",
-                message: "Please enter title of new role",
-              },
-              {
-                type: "input",
-                name: "salary",
-                message: "Please enter salary for new role",
-              },
-              {
-                type: "list",
-                name: "department_id",
-                message: "Please choose department for new role",
-                choices: showDep(allDpt),
-              },
-            ])
-            .then((responce) => {
-              //   console.log(responce);
-              modifySql(
-                addRole,
-                `${responce.title},${responce.salary},${responce.department_id}`
-              );
-            });
-          break;
-      }
+      console.log(answers);
+
+      //   switch (answers.actions) {
+      //     case "View All Employees":
+      //       runSql(allEmpl);
+      //       break;
+      //     case "View All Depratments":
+      //       runSql(allRls);
+      //       break;
+      //     case "View All Roles":
+      //       runSql(allDpt);
+      //       break;
+      //   }
     });
 };
 
 //  Function to run sql scripts returning data
-runSql = (script) => {
-  connection.query(script, (err, data) => {
-    if (err) throw err;
-    console.table(data);
-    main();
-  });
-};
-//  Function to run sql scripts to add/modify data
-modifySql = (script, responce) => {
-  connection.query(script, responce, (err, data) => {
-    if (err) throw err;
-    console.table(data);
-    main();
-  });
-};
+// runSql = (script) => {
+//   const results = query(script)
+//     .then((data) => {
+//       console.table(data);
+//       return db.end;
+//     })
+//     .then(() => main())
+//     .catch((err) => console.log(err));
+//   return results;
+// };
 
-// Function to map column names by ids
+// //  Function to run sql scripts to add data
+// modifySql = (script, responce) => {
+//   query(script, responce, (err, data) => {
+//     if (err) throw err;
+//     console.table(data);
+//     main();
+//   });
+// };
 
-showDep = (script) => {
-  connection.query(script, (err, response) => {
-    if (err) throw err;
-    const departments = response.map((element) => {
-      console.log({ name: `${element.name}` });
+// // Function to map column names by ids
 
-      return { name: `${element.name}` };
-    });
-  });
-};
+// const showDep = () => {
+//   db.query(`SELECT * FROM employee_role`, function (err, results, fields) {
+//     if (err) {
+//       console.log(err.message);
+//       return;
+//     }
 
-main();
+//     // Create empty array for storing info
+//     roleArr = [];
+//     // console.log(roleArr);
+//     // for each item in the results array, push the name of the roles to the roles array
+//     // console.log("This is results part" + results);
+//     results.forEach((item) => {
+//       roleArr.push(item.title);
+//     });
+//     console.log(roleArr);
+//   });
+// };
+
+// // main();
 
 // showDep(allDpt);
+
+module.exports = { main };

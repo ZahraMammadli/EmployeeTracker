@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
 
 // SQL queries for select function
 
-const allEmpl = `SELECT a.id as employee_id, a.firts_name , a.last_name, b.title, d.name as department, b.salary,  concat(c.firts_name," ",c.last_name) as Manager FROM employee a
+const allEmpl = `SELECT a.id as employee_id, a.first_name , a.last_name, b.title, d.name as department, b.salary,  concat(c.first_name," ",c.last_name) as Manager FROM employee a
 JOIN employee_role b on a.role_id=b.id
 JOIN department d on b.department_id=d.id
 LEFT JOIN employee c on a.manager_id = c.id`;

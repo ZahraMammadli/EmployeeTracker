@@ -1,9 +1,5 @@
 // Importing necessary packages
 const inquirer = require("inquirer");
-const { allEmpl, allRls, allDpt } = require("./utils/sqlScripts");
-const runSql = require("./lib/views");
-const { addRole, addEmp, updRole } = require("./lib/employee");
-const { addDep } = require("./lib/department");
 
 // promting user for questions
 
@@ -51,5 +47,11 @@ const main = () => {
     });
 };
 
-main();
 module.exports = { main };
+// Importing necessary function here to avoid circular dependency
+const { allEmpl, allRls, allDpt } = require("./utils/sqlScripts");
+const { runSql } = require("./lib/views");
+const { addRole, addEmp, updRole } = require("./lib/employee");
+const { addDep } = require("./lib/department");
+
+main();

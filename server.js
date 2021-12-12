@@ -16,6 +16,7 @@ const main = () => {
         "Add a Role",
         "View All Depratments",
         "Add Depratment",
+        "Quit",
       ],
       name: "actions",
     })
@@ -42,6 +43,8 @@ const main = () => {
           break;
         case "Add Depratment":
           addDep();
+          break;
+        case "Quit":
           break;
       }
     });

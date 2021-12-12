@@ -22,7 +22,7 @@ This project usage is for anyone that needs to organize their employees and depa
 
 ## Instructions
 
-If you would like to view a video on how to install and use, please checkout the following video:
+If you would like to view a video on how to install and use, please checkout the following video: https://www.youtube.com/watch?v=YsXHGusOOhQ
 
 - Clone this repository
 
